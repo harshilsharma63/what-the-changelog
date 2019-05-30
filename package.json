@@ -1,27 +1,32 @@
 {
   "name": "what-the-changelog",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "",
   "main": "out/index.js",
   "scripts": {
     "build": "tsc",
-    "prepack": "npm run build"
+    "prepack": "npm run build",
+    "run": "ts-node src/index.ts"
   },
   "engines": {
     "node": ">= 8",
     "npm": ">= 5"
   },
   "author": {
-    "name": "GitHub, Inc.",
-    "email": "opensource+desktop@github.com",
-    "url": "https://desktop.github.com/"
+    "name": "Harshil Sharma",
+    "email": "raven@joshtechnologygroup.com",
   },
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^9.3.0",
+    "@types/semver": "^6.0.0",
     "typescript": "^2.6.2"
   },
   "dependencies": {
-    "json-pretty": "0.0.1"
+    "jest": "^24.8.0",
+    "json-pretty": "0.0.1",
+    "semver": "^6.1.0",
+    "ts-jest": "^24.0.2",
+    "ts-node": "^8.2.0"
   }
 }
