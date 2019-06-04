@@ -13,7 +13,7 @@ Automatically generates changelog for a release while enforcing a few god pull r
 
 ## Arguments
 
-        npm run <previousVersion> <officialOwner> <repositoryName> <projectDir> <order: comma separated resolution labels> <resolutionIconRoot>
+        npm run <officialOwner> <repositoryName> <projectDir> <order: comma separated resolution labels> <resolutionIconRoot>
 
 * **officialOwner**: organization or user name under which the repo exists.
 * **reposirotyName**: name pf respository, as occuring in GitHub URL.

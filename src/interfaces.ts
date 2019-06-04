@@ -45,7 +45,6 @@ export interface Change {
 }
 
 export type Config = {
-    previousVersion: string
     officialOwner: string
     repositoryName: string
     projectDir: string

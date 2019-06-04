@@ -17,7 +17,6 @@ run();
 
 function parseArgs() {
     const args = process.argv.splice(2);
-    Conf.previousVersion = args[0];
     Conf.officialOwner = args[1];
     Conf.repositoryName = args[2];
     Conf.projectDir = args[3];

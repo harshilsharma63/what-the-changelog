@@ -2,15 +2,28 @@ import {spawn} from './spawn'
 import {getLogLines} from './git'
 import {convertToChangelog} from './parser'
 import Config from "./config";
+import { rsort } from 'semver'
 
 export async function run(): Promise<void> {
     await ensureGit();
     await ensureGitRepository();
-    await ensureVersion(Config.previousVersion);
 
-    const lines = await getLogLines(Config.previousVersion);
+    const sortedTags = await getVersions();
+    console.log(sortedTags);
+    const lines = await getLogLines('v' + (sortedTags.length > 1 ? sortedTags[1] : sortedTags[0]));
     const changelogEntries = await convertToChangelog(lines);
+
     console.log(changelogEntries)
+}
+
+async function getVersions(): Promise<Array<string>> {
+    const allTags = await spawn('git', ['tag'])
+    const releaseTags = allTags
+        .split('\n')
+        .filter(tag => tag.startsWith('v'))
+        .map(tag => tag.substr(1));
+
+    return rsort(releaseTags);
 }
 
 async function ensureGit() {
