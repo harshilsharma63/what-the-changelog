@@ -17,9 +17,9 @@ run();
 
 function parseArgs() {
     const args = process.argv.splice(2);
-    Conf.officialOwner = args[1];
-    Conf.repositoryName = args[2];
-    Conf.projectDir = args[3];
-    Conf.order = args[4].split(',');
-    Conf.resolutionIconRoot = args[5];
+    Conf.officialOwner = args[0];
+    Conf.repositoryName = args[1];
+    Conf.projectDir = args[2];
+    Conf.order = args[3].split(',');
+    Conf.resolutionIconRoot = args[4];
 }
