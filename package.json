@@ -5,7 +5,7 @@
   "main": "out/index.js",
   "scripts": {
     "build": "tsc",
-    "prepare" : "npm run build",
+    "prepare": "npm run build",
     "run": "ts-node src/index.ts"
   },
   "engines": {
@@ -25,5 +25,8 @@
   "dependencies": {
     "semver": "^6.1.0",
     "ts-node": "^8.2.0"
+  },
+  "bin": {
+    "whatthechangelog": "./lib/index.js"
   }
 }

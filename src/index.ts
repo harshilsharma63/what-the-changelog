@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import {run} from "./run";
 import Conf from './config';
 
