@@ -5,7 +5,7 @@
   "main": "out/index.js",
   "scripts": {
     "build": "tsc",
-    "prepack": "npm run build",
+    "prepare" : "npm run build",
     "run": "ts-node src/index.ts"
   },
   "engines": {
@@ -18,15 +18,12 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^9.3.0",
+    "@types/node": "^10.11.0",
     "@types/semver": "^6.0.0",
-    "typescript": "^2.6.2"
+    "typescript": "^3.5.1"
   },
   "dependencies": {
-    "jest": "^24.8.0",
-    "json-pretty": "0.0.1",
     "semver": "^6.1.0",
-    "ts-jest": "^24.0.2",
     "ts-node": "^8.2.0"
   }
 }
