@@ -43,3 +43,13 @@ export interface Change {
     issueRef: string
     attribution: string
 }
+
+export type Config = {
+    previousVersion: string
+    officialOwner: string
+    repositoryName: string
+    projectDir: string
+    order: Array<string>
+    resolutionIconRoot: string
+}
+

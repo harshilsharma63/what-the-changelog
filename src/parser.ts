@@ -1,8 +1,7 @@
 import {fetchIssue, fetchPR} from './api'
 import {capitalized} from "./util";
 import {Change, IAPIPR, IParsedCommit} from "./interfaces";
-
-const Config = require('./config.json');
+import Conf from "./config";
 
 // E.g.: Merge pull request #2424 from desktop/fix-shrinkwrap-file
 const mergeCommitRegex = /^Merge pull request #(\d+) from (.+?)\/.*$/;
@@ -40,19 +39,19 @@ function getReleaseNotes(changes: ReadonlyArray<Change>): string {
 
     let releaseNotes = '# Changelog\n\n';
 
-    for (let i = 0; i < Config.order.length; ++i) {
-        const section = Config.order[i];
-
-        if (i != 0) {
-            releaseNotes += '###\n'
-        }
+    for (let i = 0; i < Conf.order.length; ++i) {
+        const section = Conf.order[i];
 
         if (!taskGroups.hasOwnProperty(section)) {
             continue;
         }
 
+        if (i != 0) {
+            releaseNotes += '###\n'
+        }
+
         for (const change of taskGroups[section]) {
-            releaseNotes += `<img src="${Config.resolutionIconRoot}/${section}.png?raw=true" width="70px"> ${change.description} -${change.issueRef}${change.attribution}\n`
+            releaseNotes += `<img src="${Conf.resolutionIconRoot}/${section}.png?raw=true" width="70px"> ${change.description} -${change.issueRef}${change.attribution}\n`
         }
 
         releaseNotes += '\n'
@@ -77,7 +76,7 @@ async function getChangelogEntry(commit: IParsedCommit, pr: IAPIPR): Promise<Cha
 
 function getAttribution(commit: IParsedCommit): string {
     let attribution = '';
-    if (commit.owner !== Config.officialOwner) {
+    if (commit.owner !== Conf.officialOwner) {
         attribution = `. Thanks @${commit.owner}!`
     }
     return attribution

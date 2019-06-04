@@ -7,13 +7,13 @@ Automatically generates changelog for a release while enforcing a few god pull r
 ## Usage
 
 1. Create a GitHub personal access token with read access to your repo and add it in `GITHUB_ACCESS_TOKEN` environment variable.
-1. Update `config.json` with your repository configuration. More details in [configuration](#configuration) section.
 1. Run the script -
 
         npm run <last-tag>
 
+## Arguments
 
-## Configuration
+        npm run <previousVersion> <officialOwner> <repositoryName> <projectDir> <order: comma separated resolution labels> <resolutionIconRoot>
 
 * **officialOwner**: organization or user name under which the repo exists.
 * **reposirotyName**: name pf respository, as occuring in GitHub URL.

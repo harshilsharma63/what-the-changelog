@@ -1,16 +1,14 @@
 import {spawn} from './spawn'
 import {getLogLines} from './git'
 import {convertToChangelog} from './parser'
+import Config from "./config";
 
-export async function run(args: ReadonlyArray<string>): Promise<void> {
+export async function run(): Promise<void> {
     await ensureGit();
     await ensureGitRepository();
-    ensureArgs(args);
+    await ensureVersion(Config.previousVersion);
 
-    const previousVersion = args[0];
-    await ensureVersion(previousVersion);
-
-    const lines = await getLogLines(previousVersion);
+    const lines = await getLogLines(Config.previousVersion);
     const changelogEntries = await convertToChangelog(lines);
     console.log(changelogEntries)
 }
@@ -30,12 +28,6 @@ async function ensureGitRepository() {
         throw new Error(
             `The current directory '${process.cwd()}' is not a Git repository, aborting...`
         )
-    }
-}
-
-function ensureArgs(args: ReadonlyArray<string>) {
-    if (args.length === 0) {
-        throw new Error('No tag specified to use as a starting point.')
     }
 }
 

@@ -1,8 +1,7 @@
 import * as HTTPS from 'https'
 import {prTitleIssueRegex} from "./parser";
 import {GraphQLResponse, IAPIIssue, IAPIPR, IParsedCommit} from "./interfaces";
-
-const Config = require('./config.json');
+import Conf from "./config";
 
 export function fetchPR(commit: IParsedCommit): Promise<IAPIPR | null> {
     return new Promise((resolve, reject) => {
@@ -42,9 +41,6 @@ export function fetchPR(commit: IParsedCommit): Promise<IAPIPR | null> {
                 }
 
                 resolve(pr)
-                // } catch (e) {
-                //     resolve(null)
-                // }
             });
 
             response.on('error', (e) => {
@@ -54,7 +50,7 @@ export function fetchPR(commit: IParsedCommit): Promise<IAPIPR | null> {
 
         const graphql = `
 {
-  repository(owner: "${Config.officialOwner}", name: "${Config.reposirotyName}") {
+  repository(owner: "${Conf.officialOwner}", name: "${Conf.repositoryName}") {
     pullRequest(number: ${commit.prID}) {
       title
       body
@@ -99,7 +95,7 @@ export function fetchIssue(id: string): Promise<IAPIIssue | null> {
 
         const graphql = `
 {
-  repository(owner: "${Config.officialOwner}", name: "${Config.reposirotyName}") {
+  repository(owner: "${Conf.officialOwner}", name: "${Conf.repositoryName}") {
     issue(number: ${id}) {
       labels(first: 100){
         nodes{

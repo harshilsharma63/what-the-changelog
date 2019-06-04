@@ -1,10 +1,9 @@
 import * as ChildProcess from 'child_process'
-
-const Config = require('./config.json');
+import Conf from "./config";
 
 export function spawn(cmd: string, args: Array<string>): Promise<string> {
     return new Promise((resolve, reject) => {
-        args.unshift(`-C ${Config.projectDir}`);
+        args.unshift(`-C ${Conf.projectDir}`);
 
         const child = ChildProcess.spawn(cmd, args as string[], {shell: true});
         child.on('error', reject);
