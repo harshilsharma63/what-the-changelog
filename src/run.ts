@@ -8,8 +8,7 @@ export async function run(): Promise<void> {
     await ensureGit();
     await ensureGitRepository();
 
-    const sortedTags = await getVersions();
-    const lines = await getLogLines('v' + (sortedTags.length > 1 ? sortedTags[1] : sortedTags[0]));
+    const lines = await getLogLines(Config.sourceTag);
     const changelogEntries = await convertToChangelog(lines);
 
     console.log(changelogEntries)

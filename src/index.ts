@@ -22,4 +22,5 @@ function parseArgs() {
     Conf.projectDir = args[2];
     Conf.order = args[3].split(',');
     Conf.resolutionIconRoot = args[4];
+    Conf.sourceTag = args[5]
 }
