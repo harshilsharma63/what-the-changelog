@@ -7,8 +7,15 @@ import { rsort } from 'semver'
 export async function run(): Promise<void> {
     await ensureGit();
     await ensureGitRepository();
-
-    const lines = await getLogLines(Config.sourceTag);
+    const sortedTags = await getVersions();
+    let lines;
+    if (Config.sourceTag) {
+        lines = await getLogLines('v' + Config.sourceTag);
+    } else if (sortedTags.length > 1 && ('v' + sortedTags[0] === Config.latestTag)) {
+        lines = await getLogLines('v' + sortedTags[1]);
+    } else {
+        lines = await getLogLines('v' + sortedTags[0]);
+    }
     const changelogEntries = await convertToChangelog(lines);
 
     console.log(changelogEntries)

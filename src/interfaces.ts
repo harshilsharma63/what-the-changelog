@@ -50,6 +50,7 @@ export type Config = {
     projectDir: string
     order: Array<string>
     resolutionIconRoot: string
+    latestTag: string
     sourceTag: string
 }
 
