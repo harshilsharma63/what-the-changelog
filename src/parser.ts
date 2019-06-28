@@ -13,7 +13,6 @@ const resolutionLabelPrefix = 'resolution:';
 export async function convertToChangelog(lines: ReadonlyArray<string>): Promise<string> {
     const entries = [];
     for (const line of lines) {
-        if (line === 'Merge pull request #1 from Amalkh5/Amalkh5-patch-1') continue;
         const commit = parseCommitTitle(line);
         const pr = await fetchPR(commit);
         if (!pr) {

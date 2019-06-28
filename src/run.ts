@@ -1,24 +1,44 @@
-import {spawn} from './spawn'
-import {getLogLines} from './git'
-import {convertToChangelog} from './parser'
+import {spawn} from './spawn';
+import {getLogLines} from './git';
+import {convertToChangelog} from './parser';
 import Config from "./config";
-import { rsort } from 'semver'
+import { rsort } from 'semver';
 
 export async function run(): Promise<void> {
     await ensureGit();
     await ensureGitRepository();
     const sortedTags = await getVersions();
-    let lines;
-    if (Config.sourceTag) {
-        lines = await getLogLines('v' + Config.sourceTag);
-    } else if (sortedTags.length > 1 && ('v' + sortedTags[0] === Config.latestTag)) {
-        lines = await getLogLines('v' + sortedTags[1]);
-    } else {
-        lines = await getLogLines('v' + sortedTags[0]);
+    if (!Config.currentTag || Config.currentTag === undefined) {
+        console.error('Please provide current tag');
+        process.exit(1);
     }
+    const currentIndex = await sortedTags.indexOf(Config.currentTag.substr(1));
+    if(currentIndex === -1) {
+        console.error('Invalid current tag');
+        process.exit(1);
+    }
+    if (Config.previousTag) {
+        const previousIndex = await sortedTags.indexOf(Config.previousTag.substr(1));
+        if (previousIndex === -1) {
+            console.error('Invalid previous tag');
+            process.exit(1);
+        } else if (previousIndex <= currentIndex) {
+            console.error('Previous tag should be less than current tag');
+            process.exit(1);
+        }
+    }
+    if(!Config.previousTag) {
+        if (currentIndex < (sortedTags.length-1)) {
+            Config.previousTag = ('v' + sortedTags[currentIndex+1]);
+        } else {
+            Config.previousTag = Config.currentTag;
+            Config.currentTag = '';
+        }     
+    }
+    const lines = await getLogLines(Config.currentTag, Config.previousTag);
     const changelogEntries = await convertToChangelog(lines);
 
-    console.log(changelogEntries)
+    console.log(changelogEntries);
 }
 
 async function getVersions(): Promise<Array<string>> {
