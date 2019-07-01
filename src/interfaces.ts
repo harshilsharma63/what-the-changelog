@@ -1,13 +1,13 @@
 export interface IParsedCommit {
-    readonly prID: number
-    readonly owner: string
+    readonly prID: number;
+    readonly owner: string;
 }
 
 export interface IAPIPR {
-    title: string
-    body: string
-    description: string
-    issueID: string
+    title: string;
+    body: string;
+    description: string;
+    issueID: string;
 }
 
 export interface IAPIIssue {
@@ -15,41 +15,41 @@ export interface IAPIIssue {
         nodes: {
             name: string
         }[]
-    }
+    };
 }
 
 export interface IPRDescComp {
-    description: string
-    issueID: string
+    description: string;
+    issueID: string;
 }
 
-export type GraphQLResponse = {
+export interface GraphQLResponse {
     readonly data: {
         readonly repository: {
             readonly pullRequest: IAPIPR
         },
-    }
+    };
     readonly errors: {
         type: string
         path: string
         locations: string
         message: string
-    }[]
+    }[];
 }
 
 export interface Change {
-    resolution: string
-    description: string
-    issueRef: string
-    attribution: string
+    resolution: string;
+    description: string;
+    issueRef: string;
+    attribution: string;
 }
 
-export type Config = {
-    officialOwner: string
-    repositoryName: string
-    projectDir: string
-    order: Array<string>
-    resolutionIconRoot: string
-    sourceTag: string
+export interface Config {
+    officialOwner: string;
+    repositoryName: string;
+    projectDir: string;
+    order: Array<string>;
+    resolutionIconRoot: string;
+    currentTag: string;
+    previousTag: string;
 }
-

@@ -1,5 +1,5 @@
-import * as ChildProcess from 'child_process'
-import Conf from "./config";
+import * as ChildProcess from 'child_process';
+import Conf from './config';
 
 export function spawn(cmd: string, args: Array<string>): Promise<string> {
     return new Promise((resolve, reject) => {
@@ -10,15 +10,15 @@ export function spawn(cmd: string, args: Array<string>): Promise<string> {
 
         let receivedData = '';
         child.stdout.on('data', data => {
-            receivedData += data
+            receivedData += data;
         });
 
         child.on('close', (code, signal) => {
             if (code === 0) {
-                resolve(receivedData)
+                resolve(receivedData);
             } else {
-                reject(new Error(`'${cmd} ${args.join(' ')}' exited with code ${code}, signal ${signal}`))
+                reject(new Error(`'${cmd} ${args.join(' ')}' exited with code ${code}, signal ${signal}`));
             }
-        })
-    })
+        });
+    });
 }

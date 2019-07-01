@@ -1,15 +1,15 @@
 #!/usr/bin/env node
 
-import {run} from "./run";
+import {run} from './run';
 import Conf from './config';
 
 if (!process.env.GITHUB_ACCESS_TOKEN) {
     console.log('You need to provide a GITHUB_ACCESS_TOKEN environment variable');
-    process.exit(1)
+    process.exit(1);
 }
 
-process.on('unhandledRejection', error => {
-    console.error(error.message)
+process.on('unhandledRejection', (error) => {
+    console.error(error.message);
 });
 
 parseArgs();
@@ -22,5 +22,6 @@ function parseArgs() {
     Conf.projectDir = args[2];
     Conf.order = args[3].split(',');
     Conf.resolutionIconRoot = args[4];
-    Conf.sourceTag = args[5]
+    Conf.currentTag = args[5];
+    Conf.previousTag = args[6];
 }

@@ -1,7 +1,7 @@
-import * as HTTPS from 'https'
-import {prTitleIssueRegex} from "./parser";
-import {GraphQLResponse, IAPIIssue, IAPIPR, IParsedCommit} from "./interfaces";
-import Conf from "./config";
+import * as HTTPS from 'https';
+import {prTitleIssueRegex} from './parser';
+import {GraphQLResponse, IAPIIssue, IAPIPR, IParsedCommit} from './interfaces';
+import Conf from './config';
 
 export function fetchPR(commit: IParsedCommit): Promise<IAPIPR | null> {
     return new Promise((resolve, reject) => {
@@ -16,18 +16,18 @@ export function fetchPR(commit: IParsedCommit): Promise<IAPIPR | null> {
             },
         };
 
-        const request = HTTPS.request(options, response => {
+        const request = HTTPS.request(options, (response) => {
             let received = '';
 
-            response.on('data', chunk => {
-                received += chunk
+            response.on('data', (chunk) => {
+                received += chunk;
             });
 
             response.on('end', () => {
                 // try {
                 const json: GraphQLResponse = JSON.parse(received);
                 if (json.errors && json.errors.length) {
-                    throw new Error(json.errors.map(e => e.message).join('\n'));
+                    throw new Error(json.errors.map((e) => e.message).join('\n'));
                 }
 
                 const pr = json.data.repository.pullRequest;
@@ -37,14 +37,14 @@ export function fetchPR(commit: IParsedCommit): Promise<IAPIPR | null> {
                     pr.issueID = parts[0].split('-').slice(-1)[0];
                     pr.description = parts.slice(1).join(' ');
                 } else {
-                    throw Error(`Could\'t find issue ID in PR title: ${pr.title}`)
+                    throw Error(`Could't find issue ID in PR title: ${pr.title}`);
                 }
 
-                resolve(pr)
+                resolve(pr);
             });
 
             response.on('error', (e) => {
-                throw(e)
+                throw (e);
             });
         });
 
@@ -59,8 +59,8 @@ export function fetchPR(commit: IParsedCommit): Promise<IAPIPR | null> {
 }
 `;
         request.write(JSON.stringify({query: graphql}));
-        request.end()
-    })
+        request.end();
+    });
 }
 
 export function fetchIssue(id: string): Promise<IAPIIssue | null> {
@@ -76,21 +76,21 @@ export function fetchIssue(id: string): Promise<IAPIIssue | null> {
             },
         };
 
-        const request = HTTPS.request(options, response => {
+        const request = HTTPS.request(options, (response) => {
             let received = '';
-            response.on('data', chunk => {
-                received += chunk
+            response.on('data', (chunk) => {
+                received += chunk;
             });
 
             response.on('end', () => {
                 try {
                     const json = JSON.parse(received);
                     const issue = json.data.repository.issue;
-                    resolve(issue)
+                    resolve(issue);
                 } catch (e) {
-                    resolve(null)
+                    resolve(null);
                 }
-            })
+            });
         });
 
         const graphql = `
@@ -107,6 +107,6 @@ export function fetchIssue(id: string): Promise<IAPIIssue | null> {
 }
 `;
         request.write(JSON.stringify({query: graphql}));
-        request.end()
-    })
+        request.end();
+    });
 }
