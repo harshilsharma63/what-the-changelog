@@ -20,11 +20,13 @@ async function getTags() {
         console.error('Please provide current tag');
         process.exit(1);
     }
+
     const currentIndex = await sortedTags.indexOf(Config.currentTag.substr(1));
     if (currentIndex === -1) {
         console.error(`Current tag doesnt exist, tag: ${Config.currentTag}`);
         process.exit(1);
     }
+
     if (Config.previousTag) {
         const previousIndex = await sortedTags.indexOf(Config.previousTag.substr(1));
         if (previousIndex === -1) {
